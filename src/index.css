@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-neon: #d4ff00;
+  --color-neon-dark: #b8e600;
+  --color-dark: #000000;
+  --color-dark-lighter: #18181b;
+  
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-white text-[#18181B] antialiased;
+  }
+}
