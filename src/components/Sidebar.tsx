@@ -36,7 +36,7 @@ const sidebarItems = [
 ];
 
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
-  const { isAdmin } = useAuth();
+  const { isAdmin, signOut } = useAuth();
   return (
     <div className={cn(
       "fixed inset-y-0 left-0 z-50 w-64 bg-dark text-white flex flex-col p-4 border-r border-white/10 shrink-0 transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0",
@@ -76,7 +76,10 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             )}
           </NavLink>
         ))}
-        <button className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 text-sm font-medium text-red-500 hover:bg-red-500/10 mt-auto">
+        <button 
+          onClick={() => signOut()}
+          className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 text-sm font-medium text-red-500 hover:bg-red-500/10 mt-auto"
+        >
           <LogOut className="w-5 h-5" />
           <span>Logout</span>
         </button>
