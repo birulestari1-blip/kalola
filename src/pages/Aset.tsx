@@ -71,10 +71,7 @@ export default function AsetPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const [liabilities, setLiabilities] = useState<Liability[]>([
-    { id: 'l1', name: 'KPR Rumah', amount: 200000000, dueDate: '2035-01-01', category: 'Hutang Jangka Panjang' },
-    { id: 'l2', name: 'Kartu Kredit', amount: 5000000, dueDate: '2026-04-25', category: 'Hutang Jangka Pendek' },
-  ]);
+  const [liabilities, setLiabilities] = useState<DBDebt[]>([]);
 
   useEffect(() => {
     fetchData();
@@ -83,12 +80,14 @@ export default function AsetPage() {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const [assetData, walletData] = await Promise.all([
+      const [assetData, walletData, debtData] = await Promise.all([
         dbService.getAssets(),
-        dbService.getWallets()
+        dbService.getWallets(),
+        dbService.getDebts()
       ]);
       setAssets(assetData);
       setWallets(walletData);
+      setLiabilities(debtData);
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -236,17 +235,22 @@ export default function AsetPage() {
     }
   };
 
-  const handleLiabilitySubmit = (e: React.FormEvent) => {
+  const handleLiabilitySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const data = {
-      id: Math.random().toString(36).substr(2, 9),
-      name: liabilityFormData.name,
-      amount: parseFloat(liabilityFormData.amount) || 0,
-      dueDate: liabilityFormData.dueDate,
-      category: liabilityFormData.category,
-    };
-    setLiabilities([...liabilities, data]);
-    setIsLiabilityModalOpen(false);
+    try {
+      const amount = parseFloat(liabilityFormData.amount) || 0;
+      await dbService.createDebt({
+        name: liabilityFormData.name,
+        lender: 'Manual Entry',
+        amount: amount,
+        due_date: liabilityFormData.dueDate,
+        status: 'active'
+      });
+      fetchData();
+      setIsLiabilityModalOpen(false);
+    } catch (err: any) {
+      alert(err.message);
+    }
   };
 
   return (
