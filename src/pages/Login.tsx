@@ -24,7 +24,13 @@ export default function LoginPage() {
       });
 
       if (error) throw error;
-      navigate('/dashboard');
+      
+      // Redirect based on role
+      if (email === 'nopianhadi2@gmail.com') {
+        navigate('/admin');
+      } else {
+        navigate('/dashboard');
+      }
     } catch (err: any) {
       setError(err.message || 'Gagal masuk. Silakan periksa kembali email dan password Anda.');
     } finally {

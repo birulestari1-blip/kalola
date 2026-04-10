@@ -76,21 +76,6 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             )}
           </NavLink>
         ))}
-
-        {isAdmin && (
-          <NavLink
-            to="/admin"
-            onClick={onClose}
-            className={({ isActive }) => cn(
-              "flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 text-sm font-black uppercase tracking-widest mt-2",
-              isActive ? "bg-indigo-500 text-white" : "text-indigo-400 hover:bg-indigo-500/10"
-            )}
-          >
-            <ShieldCheck className="w-5 h-5" />
-            <span className="flex-1 text-left">Admin Panel</span>
-          </NavLink>
-        )}
-
         <button className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 text-sm font-medium text-red-500 hover:bg-red-500/10 mt-auto">
           <LogOut className="w-5 h-5" />
           <span>Logout</span>
